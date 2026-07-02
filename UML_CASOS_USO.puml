@@ -1,0 +1,97 @@
+﻿@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #F8FAFC
+  BorderColor #0B3954
+}
+
+actor Superadmin
+actor PM
+actor Dev
+actor QA
+actor Soporte
+actor Consulta
+
+rectangle "Sistema de Gestion de Desarrollos" {
+  usecase "Autenticarse" as UC_Login
+  usecase "Gestionar Sistemas" as UC_Sistemas
+  usecase "Gestionar Proyectos" as UC_Proyectos
+  usecase "Gestionar Miembros" as UC_Miembros
+  usecase "Gestionar Tareas" as UC_Tareas
+  usecase "Mover Estado de Tarea" as UC_Move
+  usecase "Asignar Tarea" as UC_Assign
+  usecase "Planificar Fechas" as UC_Plan
+  usecase "Gestionar Documentos" as UC_Docs
+  usecase "Agregar Version" as UC_AddVersion
+  usecase "Publicar Documento" as UC_Publish
+  usecase "Gestionar Reuniones" as UC_Reuniones
+  usecase "Gestionar Acuerdos" as UC_Acuerdos
+  usecase "Convertir Acuerdo a Tarea" as UC_ToTask
+  usecase "Registrar Worklog" as UC_Worklog
+  usecase "Consultar Reportes" as UC_Reportes
+}
+
+Superadmin --> UC_Login
+Superadmin --> UC_Sistemas
+Superadmin --> UC_Proyectos
+Superadmin --> UC_Miembros
+Superadmin --> UC_Tareas
+Superadmin --> UC_Move
+Superadmin --> UC_Assign
+Superadmin --> UC_Plan
+Superadmin --> UC_Docs
+Superadmin --> UC_AddVersion
+Superadmin --> UC_Publish
+Superadmin --> UC_Reuniones
+Superadmin --> UC_Acuerdos
+Superadmin --> UC_ToTask
+Superadmin --> UC_Worklog
+Superadmin --> UC_Reportes
+
+PM --> UC_Login
+PM --> UC_Proyectos
+PM --> UC_Miembros
+PM --> UC_Tareas
+PM --> UC_Move
+PM --> UC_Assign
+PM --> UC_Plan
+PM --> UC_Docs
+PM --> UC_AddVersion
+PM --> UC_Publish
+PM --> UC_Reuniones
+PM --> UC_Acuerdos
+PM --> UC_ToTask
+PM --> UC_Reportes
+
+Dev --> UC_Login
+Dev --> UC_Tareas
+Dev --> UC_Move
+Dev --> UC_Docs
+Dev --> UC_AddVersion
+Dev --> UC_Worklog
+
+QA --> UC_Login
+QA --> UC_Tareas
+QA --> UC_Move
+QA --> UC_Docs
+QA --> UC_Reportes
+
+Soporte --> UC_Login
+Soporte --> UC_Tareas
+Soporte --> UC_Move
+Soporte --> UC_Worklog
+Soporte --> UC_Reportes
+
+Consulta --> UC_Login
+Consulta --> UC_Docs
+Consulta --> UC_Reportes
+
+UC_Proyectos .> UC_Miembros : <<include>>
+UC_Tareas .> UC_Move : <<include>>
+UC_Tareas .> UC_Assign : <<include>>
+UC_Tareas .> UC_Plan : <<include>>
+UC_Docs .> UC_AddVersion : <<include>>
+UC_Docs .> UC_Publish : <<include>>
+UC_Acuerdos .> UC_ToTask : <<extend>>
+@enduml

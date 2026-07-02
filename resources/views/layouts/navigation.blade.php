@@ -15,6 +15,48 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    @can('sistemas.viewAny')
+                    <x-nav-link :href="route('sistemas.index')" :active="request()->routeIs('sistemas.*')">
+                        {{ __('Sistemas') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('proyectos.viewAny')
+                    <x-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">
+                        {{ __('Proyectos') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('tareas.viewAny')
+                    <x-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.*')">
+                        {{ __('Tareas') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('docs.viewAny')
+                    <x-nav-link :href="route('documentos.index')" :active="request()->routeIs('documentos.*')">
+                        {{ __('Documentos') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('reuniones.viewAny')
+                    <x-nav-link :href="route('reuniones.index')" :active="request()->routeIs('reuniones.*')">
+                        {{ __('Reuniones') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('worklogs.viewAny')
+                    <x-nav-link :href="route('worklogs.index')" :active="request()->routeIs('worklogs.*')">
+                        {{ __('Worklogs') }}
+                    </x-nav-link>
+                    @endcan
+                    
+                    @can('reportes.view')
+                    <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">
+                        {{ __('Reportes') }}
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -70,6 +112,48 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @can('sistemas.viewAny')
+            <x-responsive-nav-link :href="route('sistemas.index')" :active="request()->routeIs('sistemas.*')">
+                {{ __('Sistemas') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('proyectos.viewAny')
+            <x-responsive-nav-link :href="route('proyectos.index')" :active="request()->routeIs('proyectos.*')">
+                {{ __('Proyectos') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('tareas.viewAny')
+            <x-responsive-nav-link :href="route('tareas.index')" :active="request()->routeIs('tareas.*')">
+                {{ __('Tareas') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('docs.viewAny')
+            <x-responsive-nav-link :href="route('documentos.index')" :active="request()->routeIs('documentos.*')">
+                {{ __('Documentos') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('reuniones.viewAny')
+            <x-responsive-nav-link :href="route('reuniones.index')" :active="request()->routeIs('reuniones.*')">
+                {{ __('Reuniones') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('worklogs.viewAny')
+            <x-responsive-nav-link :href="route('worklogs.index')" :active="request()->routeIs('worklogs.*')">
+                {{ __('Worklogs') }}
+            </x-responsive-nav-link>
+            @endcan
+            
+            @can('reportes.view')
+            <x-responsive-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.*')">
+                {{ __('Reportes') }}
+            </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

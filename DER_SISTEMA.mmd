@@ -1,0 +1,253 @@
+﻿erDiagram
+    users {
+      bigint id PK
+      string name
+      string email
+      datetime email_verified_at
+      datetime created_at
+      datetime updated_at
+    }
+
+    sistemas {
+      bigint id PK
+      string nombre
+      string slug UK
+      string estatus
+      bigint created_by FK
+      bigint updated_by FK
+    }
+
+    proyectos {
+      bigint id PK
+      bigint sistema_id FK
+      string nombre
+      string slug UK
+      string estatus
+      date fecha_inicio
+      date fecha_fin
+    }
+
+    proyecto_miembros {
+      bigint id PK
+      bigint proyecto_id FK
+      bigint user_id FK
+      string rol_en_proyecto
+      boolean asignacion_activa
+    }
+
+    tareas {
+      bigint id PK
+      bigint proyecto_id FK
+      bigint asignado_a FK
+      string titulo
+      string tipo
+      string estado
+      string prioridad
+      date fecha_inicio
+      date fecha_fin
+    }
+
+    tarea_dependencias {
+      bigint id PK
+      bigint tarea_id FK
+      bigint depende_de_tarea_id FK
+    }
+
+    documentos {
+      bigint id PK
+      bigint sistema_id FK
+      bigint release_id FK
+      string titulo
+      string estado
+      string tipo
+    }
+
+    documento_versiones {
+      bigint id PK
+      bigint documento_id FK
+      string version
+      text contenido
+    }
+
+    reuniones {
+      bigint id PK
+      bigint proyecto_id FK
+      datetime fecha_inicio
+      datetime fecha_fin
+    }
+
+    acuerdos {
+      bigint id PK
+      bigint reunion_id FK
+      bigint proyecto_id FK
+      bigint responsable_id FK
+      string estatus
+      date fecha_compromiso
+    }
+
+    worklogs {
+      bigint id PK
+      bigint tarea_id FK
+      bigint user_id FK
+      int minutos
+      date fecha
+    }
+
+    releases {
+      bigint id PK
+      bigint sistema_id FK
+      string version
+      string estatus
+    }
+
+    release_tarea {
+      bigint id PK
+      bigint release_id FK
+      bigint tarea_id FK
+    }
+
+    comentarios {
+      bigint id PK
+      string model_type
+      bigint model_id
+      bigint user_id FK
+      text contenido
+      boolean is_private
+    }
+
+    checklists {
+      bigint id PK
+      string model_type
+      bigint model_id
+      string titulo
+    }
+
+    checklist_items {
+      bigint id PK
+      bigint checklist_id FK
+      string descripcion
+      boolean completado
+    }
+
+    etiquetas {
+      bigint id PK
+      string nombre
+      string color
+    }
+
+    tarea_etiqueta {
+      bigint id PK
+      bigint tarea_id FK
+      bigint etiqueta_id FK
+    }
+
+    documento_etiqueta {
+      bigint id PK
+      bigint documento_id FK
+      bigint etiqueta_id FK
+    }
+
+    favoritos {
+      bigint id PK
+      bigint user_id FK
+      string model_type
+      bigint model_id
+    }
+
+    github_installations {
+      bigint id PK
+      bigint user_id FK
+      string account_login
+    }
+
+    github_repositories {
+      bigint id PK
+      bigint installation_id FK
+      bigint sistema_id FK
+      bigint proyecto_id FK
+      string full_name
+    }
+
+    github_webhook_events {
+      bigint id PK
+      bigint installation_id FK
+      string event_name
+      string delivery_id
+      string status
+      datetime received_at
+    }
+
+    reportes_jasper {
+      bigint id PK
+      string nombre
+      string estado
+    }
+
+    reportes_ejecuciones {
+      bigint id PK
+      bigint reporte_id FK
+      bigint user_id FK
+      string estado
+      datetime executed_at
+    }
+
+    ia_prompts {
+      bigint id PK
+      string nombre
+      text prompt
+    }
+
+    ia_generaciones {
+      bigint id PK
+      bigint prompt_id FK
+      bigint user_id FK
+      string model_type
+      bigint model_id
+    }
+
+    sistemas ||--o{ proyectos : contiene
+    proyectos ||--o{ proyecto_miembros : tiene
+    users ||--o{ proyecto_miembros : participa
+
+    proyectos ||--o{ tareas : contiene
+    users o|--o{ tareas : asignado_a
+
+    tareas ||--o{ tarea_dependencias : origen
+    tareas ||--o{ tarea_dependencias : depende_de
+
+    sistemas ||--o{ releases : publica
+    releases ||--o{ release_tarea : agrupa
+    tareas ||--o{ release_tarea : incluida
+
+    sistemas ||--o{ documentos : documenta
+    releases o|--o{ documentos : referencia
+    documentos ||--o{ documento_versiones : versiona
+
+    proyectos ||--o{ reuniones : agenda
+    reuniones ||--o{ acuerdos : define
+    proyectos o|--o{ acuerdos : contexto
+    users o|--o{ acuerdos : responsable
+
+    tareas ||--o{ worklogs : registra
+    users ||--o{ worklogs : captura
+
+    users ||--o{ comentarios : escribe
+    checklists ||--o{ checklist_items : contiene
+
+    tareas ||--o{ tarea_etiqueta : clasifica
+    etiquetas ||--o{ tarea_etiqueta : etiqueta
+    documentos ||--o{ documento_etiqueta : clasifica
+    etiquetas ||--o{ documento_etiqueta : etiqueta
+
+    users ||--o{ favoritos : marca
+
+    github_installations ||--o{ github_repositories : contiene
+    github_installations ||--o{ github_webhook_events : recibe
+    sistemas o|--o{ github_repositories : vincula
+    proyectos o|--o{ github_repositories : vincula
+
+    reportes_jasper ||--o{ reportes_ejecuciones : ejecuta
+    users ||--o{ reportes_ejecuciones : lanza
+
+    ia_prompts ||--o{ ia_generaciones : genera
+    users ||--o{ ia_generaciones : solicita

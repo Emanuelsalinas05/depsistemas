@@ -123,4 +123,29 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Registro público de usuarios
+    |--------------------------------------------------------------------------
+    |
+    | En producción institucional suele deshabilitarse el registro abierto.
+    | Si DISABLE_REGISTRATION no está definido, por defecto se deshabilita
+    | cuando APP_ENV=production (ver README_PRODUCCION.md).
+    |
+    */
+
+    'disable_registration' => env('DISABLE_REGISTRATION') !== null
+        ? filter_var(env('DISABLE_REGISTRATION'), FILTER_VALIDATE_BOOLEAN)
+        : (bool) (env('APP_ENV', 'production') === 'production'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | HTTPS y HSTS
+    |--------------------------------------------------------------------------
+    */
+
+    'force_https' => filter_var(env('APP_FORCE_HTTPS', false), FILTER_VALIDATE_BOOLEAN),
+
+    'hsts_enabled' => filter_var(env('FORCE_HSTS', false), FILTER_VALIDATE_BOOLEAN),
+
 ];

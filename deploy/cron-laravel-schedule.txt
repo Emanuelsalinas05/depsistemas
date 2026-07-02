@@ -1,0 +1,9 @@
+# Crontab — Laravel scheduler (producción)
+# Editar con crontab -e bajo el usuario que ejecuta PHP (p. ej. www-data)
+#
+# * * * * * cd /ruta/absoluta/al/proyecto && php artisan schedule:run >> /dev/null 2>&1
+#
+# Windows Server (Task Scheduler): cada 1 minuto, acción:
+#   Programa: C:\ruta\php\php.exe
+#   Argumentos: C:\ruta\al\proyecto\artisan schedule:run
+#   Iniciar en: C:\ruta\al\proyecto

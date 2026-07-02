@@ -15,11 +15,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call(RolesAndPermissionsSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Usuario inicial institucional (opcional; ver InitialAdminSeeder y README_PRODUCCION.md)
+        $this->call(InitialAdminSeeder::class);
+
+        // Datos demo SOLO en entornos no productivos y con opt-in explícito (SEED_DEMO_DATA=true)
+        if ($this->shouldSeedDemoDataset()) {
+            $this->call(DemoUserSeeder::class);
+        }
+    }
+
+    /**
+     * Nunca sembrar datos demo en producción, aunque SEED_DEMO_DATA esté mal configurado.
+     */
+    private function shouldSeedDemoDataset(): bool
+    {
+        if (app()->environment('production')) {
+            return false;
+        }
+
+        return filter_var(env('SEED_DEMO_DATA', 'false'), FILTER_VALIDATE_BOOLEAN);
     }
 }

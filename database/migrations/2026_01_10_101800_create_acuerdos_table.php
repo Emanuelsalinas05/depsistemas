@@ -11,6 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Eliminar tabla si existe (por migración parcial previa)
+        Schema::dropIfExists('acuerdos');
+        
         Schema::create('acuerdos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('reunion_id')->nullable()->constrained('reuniones')->nullOnDelete()->name('acuerdos_reunion_id_foreign');

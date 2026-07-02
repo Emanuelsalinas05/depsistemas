@@ -112,4 +112,12 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Límite de intentos de inicio de sesión (LoginRequest)
+    |--------------------------------------------------------------------------
+    */
+
+    'login_max_attempts' => (int) env('LOGIN_MAX_ATTEMPTS', 5),
+
 ];

@@ -1,0 +1,27 @@
+﻿@startuml
+actor PM
+participant "Blade UI" as UI
+participant "DocumentoController" as C
+participant "DocumentoPolicy" as P
+participant "Documento" as D
+participant "DocumentoVersion" as V
+database "MySQL" as DB
+
+PM -> UI : Click en "Publicar"
+UI -> C : POST /documentos/{id}/publish
+C -> P : authorize('publish', documento)
+P --> C : allow / deny
+
+alt deny
+  C --> UI : 403 Forbidden
+else allow
+  C -> DB : begin transaction
+  C -> D : validar estado y reglas de negocio
+  C -> V : crear version final
+  V -> DB : INSERT documento_versiones
+  C -> D : estado = publicado
+  D -> DB : UPDATE documentos
+  C -> DB : commit
+  C --> UI : redirect + flash success
+end
+@enduml

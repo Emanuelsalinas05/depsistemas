@@ -1,0 +1,101 @@
+﻿@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+  +id
+  +name
+  +email
+}
+
+class Sistema {
+  +id
+  +nombre
+  +slug
+  +estatus
+}
+
+class Proyecto {
+  +id
+  +sistema_id
+  +nombre
+  +slug
+  +estatus
+}
+
+class Tarea {
+  +id
+  +proyecto_id
+  +asignado_a
+  +titulo
+  +estado
+  +prioridad
+}
+
+class Documento {
+  +id
+  +sistema_id
+  +release_id
+  +titulo
+  +estado
+}
+
+class DocumentoVersion {
+  +id
+  +documento_id
+  +version
+}
+
+class Reunion {
+  +id
+  +proyecto_id
+  +fecha_inicio
+}
+
+class Acuerdo {
+  +id
+  +reunion_id
+  +proyecto_id
+  +responsable_id
+  +estatus
+}
+
+class Worklog {
+  +id
+  +tarea_id
+  +user_id
+  +minutos
+  +fecha
+}
+
+class Release {
+  +id
+  +sistema_id
+  +version
+}
+
+class Comentario {
+  +id
+  +model_type
+  +model_id
+  +user_id
+}
+
+Sistema "1" -- "0..*" Proyecto
+Proyecto "1" -- "0..*" Tarea
+Tarea "0..*" -- "0..1" User : asignadoA
+Sistema "1" -- "0..*" Documento
+Documento "1" -- "0..*" DocumentoVersion
+Sistema "1" -- "0..*" Release
+Release "0..1" -- "0..*" Documento
+Proyecto "1" -- "0..*" Reunion
+Reunion "1" -- "0..*" Acuerdo
+Proyecto "0..1" -- "0..*" Acuerdo
+User "0..1" -- "0..*" Acuerdo : responsable
+Tarea "1" -- "0..*" Worklog
+User "1" -- "0..*" Worklog
+
+Comentario ..> Tarea : morphTo
+Comentario ..> Documento : morphTo
+Comentario ..> Acuerdo : morphTo
+
+@enduml

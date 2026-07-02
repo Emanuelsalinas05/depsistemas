@@ -1,0 +1,50 @@
+﻿@startuml
+start
+:Usuario autenticado abre tablero Kanban;
+:Selecciona proyecto;
+:Visualiza columnas por estado;
+
+if (Crea nueva tarea?) then (si)
+  :Completa formulario de tarea;
+  :Validar request;
+  if (Valido?) then (si)
+    :Persistir tarea;
+  else (no)
+    :Mostrar errores;
+  endif
+endif
+
+:Selecciona tarea existente;
+if (Cambia estado?) then (si)
+  :Solicitar moveState;
+  :Evaluar policy + reglas de rol;
+  if (Autorizado?) then (si)
+    :Actualizar estado;
+    :Registrar actividad;
+  else (no)
+    :Retornar forbidden;
+  endif
+endif
+
+if (Asigna responsable?) then (si)
+  :Solicitar assign;
+  :Validar PM/scope;
+  if (Autorizado?) then (si)
+    :Actualizar asignado_a;
+  else (no)
+    :Retornar forbidden;
+  endif
+endif
+
+if (Planifica fechas?) then (si)
+  :Solicitar planDates;
+  :Validar coherencia de fechas;
+  if (Valido y autorizado?) then (si)
+    :Guardar fecha_inicio/fecha_fin;
+  else (no)
+    :Retornar error;
+  endif
+endif
+
+stop
+@enduml

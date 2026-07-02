@@ -1,0 +1,16 @@
+; Ejemplo Supervisor (Linux) — ajustar rutas y usuario del servicio.
+; Copiar a /etc/supervisor/conf.d/laravel-worker.conf y ejecutar:
+;   sudo supervisorctl reread && sudo supervisorctl update
+
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /ruta/al/proyecto/artisan queue:work database --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-data
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/ruta/al/proyecto/storage/logs/worker.log
+stopwaitsecs=3600
